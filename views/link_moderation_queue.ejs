@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/navbar.css" rel="stylesheet"/>
+    <script src="/js/queue_link.js"></script>
+    <script src="/js/hamburger.js"></script>
+    <title>Shortcut</title>
+</head>
+<body>
+    <div class="navbar">
+        <H1 class="nav-logo">Shortcut</H1>
+        <ul class="nav-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+                <li class="nav-items admin-menu">
+                    <a href="#" class="admin-menu-toggle">AdminTools</a>
+                    <ul class="admin-dropdown">
+                        <li class="nav-items"><a href="/users">Users</a></li>
+                        <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+                        <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+        <% if(userName != null) { %>
+            <p id="user-name"><%= userName %> <a href="/logout"><button id="logout-btn">logout</button></a> </p>
+        <% }else { %>
+        <a href="/login"><button id="login-btn">Login</button></a>
+        <% } %>
+        <label class="nav-dropdown-hamburger">
+            <input type="checkbox" id="hamburger-checkbox">
+        </label>   
+        <ul class="nav-dropdown-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+            <li class="nav-items"><a href="/users">Users</a></li>
+            <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+            <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+            <% } %>
+            <% if(userName != null) { %>
+                <li><p id="dropdown-username"><%= userName %><a href="/logout"><button id="dropdown-logout-btn">logout</button></a> </p></li>
+            <% }else { %>
+                <li><a href="/login"><button id="dropdown-login-btn">Login</button></a></li>
+            <% } %>
+        </ul>
+    </div>
+    <div>
+        <table id="moderation-queue-link-table">
+            <tr>
+                <th></th>
+                <th>AddedBy</th>
+                <th>MovieName</th>
+                <th>Language</th>
+                <th>Quality</th>
+                <th>Source</th>
+                <th>Link</th>
+            </tr>
+            <% links.forEach((link) => { %>
+            <tr>
+                <td>
+                    <button class="add-link-to-movie-btn"
+                        data-link-id="<%= link.link_queueID %>"
+                        data-movie-id="<%= link.movieID %>"
+                        data-title="<%= link.movie_title %>"
+                        data-language="<%= link.link_language %>"
+                        data-quality="<%= link.link_quality %>"
+                        data-source="<%= link.link_source %>"
+                        data-url="<%= link.link_url %>">   
+                    Add</button>
+                    <button class="remove-link-to-movie-btn"
+                        data-link-id="<%= link.link_queueID %>"
+                        data-movie-id="<%= link.movieID %>"
+                        data-title="<%= link.movie_title %>"
+                        data-language="<%= link.link_language %>"
+                        data-quality="<%= link.link_quality %>"
+                        data-source="<%= link.link_source %>"
+                        data-url="<%= link.link_url %>">
+                    Remove</button>
+                </td>
+                <td><%= link.userName %></td>
+                <td><%= link.movie_title %></td>
+                <td><%= link.link_language %></td>
+                <td><%= link.link_quality %></td>
+                <td><%= link.link_source %></td>
+                <td><a href="<%= link.link_url %>">watch</a></td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+    <footer></footer>
+</body>
+</html>

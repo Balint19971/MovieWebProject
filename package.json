@@ -1,0 +1,24 @@
+{
+  "name": "farkas.balint21",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mssql": "^9.1.3",
+    "nodemon": "^3.0.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-airbnb-base": "^15.0.0"
+  }
+}

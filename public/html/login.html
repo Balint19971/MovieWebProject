@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/navbar.css" rel="stylesheet">
+    <script src="/js/hamburger.js"></script>
+    <title>Shortcut</title>
+</head>
+<body>
+    <div class="navbar">
+        <H1 class="nav-logo">Shortcut</H1>
+        <ul class="nav-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+        </ul>
+        <label class="nav-dropdown-hamburger">
+            <input type="checkbox" id="hamburger-checkbox">
+        </label>   
+        <ul class="nav-dropdown-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+        </ul>
+    </div>
+    <h1>Login</h1>
+<form action="/login" method="POST">
+    <div>
+        <label for="name">UserName</label>
+        <input 
+        type="text" 
+        id="name" 
+        name="name" 
+        pattern="[A-Z].*" 
+        title="Must start with an uppercase letter." 
+        required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+</form>
+<a href="/register">Register</a>
+<footer></footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/navbar.css" rel="stylesheet"/>
+    <script src="/js/users.js"></script>
+    <script src="/js/hamburger.js"></script>
+    <title>Shortcut</title>
+</head>
+<body>
+  <div class="navbar">
+    <H1 class="nav-logo">Shortcut</H1>
+    <ul class="nav-menu">
+        <li class="nav-items"><a href="/movies">Movies</a></li>
+        <% if(userRole <= 3 && userName != null) { %>
+        <li class="nav-items"><a href="/upload">Upload</a></li>
+        <% }if(userRole <= 2 && userName != null) { %>
+            <li class="nav-items admin-menu">
+                <a href="#" class="admin-menu-toggle">AdminTools</a>
+                <ul class="admin-dropdown">
+                    <li class="nav-items"><a href="/users">Users</a></li>
+                    <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+                    <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+                </ul>
+            </li>
+        <% } %>
+    </ul>
+    <% if(userName != null) { %>
+        <p id="user-name"><%= userName %> <a href="/logout"><button id="logout-btn">logout</button></a> </p>
+    <% }else { %>
+    <a href="/login"><button id="login-btn">Login</button></a>
+    <% } %>
+    <label class="nav-dropdown-hamburger">
+        <input type="checkbox" id="hamburger-checkbox">
+    </label>   
+    <ul class="nav-dropdown-menu">
+        <li class="nav-items"><a href="/movies">Movies</a></li>
+        <% if(userRole <= 3 && userName != null) { %>
+        <li class="nav-items"><a href="/upload">Upload</a></li>
+        <% }if(userRole <= 2 && userName != null) { %>
+        <li class="nav-items"><a href="/users">Users</a></li>
+        <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+        <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+        <% } %>
+        <% if(userName != null) { %>
+            <li><p id="dropdown-username"><%= userName %><a href="/logout"><button id="dropdown-logout-btn">logout</button></a> </p></li>
+        <% }else { %>
+            <li><a href="/login"><button id="dropdown-login-btn">Login</button></a></li>
+        <% } %>
+    </ul>
+</div>
+    <div class="users-wrapper">
+      <form action="/users" method="POST" id="user-search-form">
+        <input type="text" id="search-user" name="searchedUser" placeholder="Search user...">
+        <button type="submit">Search</button>
+      </form>
+        <table class="users-table">
+            <thead>
+              <tr>
+                <th>User name</th>
+                <th>User email</th>
+                <th>User role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach((user) => { %>
+                <tr>
+                  <td><%= user.userName %></td>
+                  <td><%= user.userEmail %></td>
+                  <td><%= user.userPrivilege %></td>
+                  <td>
+                    <% if(Number(userRole) === 1) {%>
+                    <button class="delete-user-btn" value="<%= user.userID %>" data-user-name="<%= user.userName %>">DeleteUser</button>
+                    <form>
+                      <button value="<%= user.userID %>" class="change-role-btn">ChangeRole</button>
+                      <select class="role-number" name="role-number">
+                        <option value="3">User</option>
+                        <option value="2">Admin</option>
+                      </select>
+                    </form>
+                    <% }else if(Number(userRole) === 2 && user.userPrivilege === 'User') { %>
+                      <button class="delete-user-btn" value="<%= user.userID %>" data-user-name="<%= user.userName %>">DeleteUser</button>
+                    <form>
+                      <button value="<%= user.userID %>" class="change-role-btn">ChangeRole</button>
+                      <select class="role-number" name="role-number">
+                        <option value="3">User</option>
+                        <option value="2">Admin</option>
+                      </select>
+                    </form>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+        </table>
+
+        <ul class="users-list">
+          <% users.forEach((user) => { %>
+            <li class="user-item">
+              <div class="user-details">
+                <strong>User name:</strong> <%= user.userName %><br>
+                <strong>User email:</strong> <%= user.userEmail %><br>
+                <strong>User role:</strong> <%= user.userPrivilege %><br>
+              </div>
+              <div class="user-actions">
+                <button class="delete-user-btn" value="<%= user.userID %>" data-user-name="<%= user.userName %>">Delete User</button>
+                <form>
+                  <button value="<%= user.userID %>" class="change-role-btn">Change Role</button>
+                  <select class="role-number" name="role-number">
+                    <option value="3">User</option>
+                    <option value="2">Admin</option>
+                  </select>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+          
+    </div>
+    <footer></footer>
+</body>
+</html>

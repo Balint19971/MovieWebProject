@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link href="/css/navbar.css" rel="stylesheet"/>
+    <script src="/js/queue_movie.js"></script>
+    <script src="/js/hamburger.js"></script>
+    <title>Movie Moderation queue</title>
+</head>
+<body>
+    <div class="navbar">
+        <H1 class="nav-logo">Shortcut</H1>
+        <ul class="nav-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+                <li class="nav-items admin-menu">
+                    <a href="#" class="admin-menu-toggle">AdminTools</a>
+                    <ul class="admin-dropdown">
+                        <li class="nav-items"><a href="/users">Users</a></li>
+                        <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+                        <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+        <% if(userName != null) { %>
+            <p id="user-name"><%= userName %> <a href="/logout"><button id="logout-btn">logout</button></a> </p>
+        <% }else { %>
+        <a href="/login"><button id="login-btn">Login</button></a>
+        <% } %>
+        <label class="nav-dropdown-hamburger">
+            <input type="checkbox" id="hamburger-checkbox">
+        </label>   
+        <ul class="nav-dropdown-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+            <li class="nav-items"><a href="/users">Users</a></li>
+            <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+            <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+            <% } %>
+            <% if(userName != null) { %>
+                <li><p id="dropdown-username"><%= userName %><a href="/logout"><button id="dropdown-logout-btn">logout</button></a> </p></li>
+            <% }else { %>
+                <li><a href="/login"><button id="dropdown-login-btn">Login</button></a></li>
+            <% } %>
+        </ul>
+    </div>
+        <ol type="1" id="queue-movies-section">
+            <% queueMovies.forEach((movie) => {%>
+            <li class="queue-movie">
+                <div class="queue-movie-parameters">
+                    <ul>
+                        <li>Movie send by: <%= movie.userName %></li>
+                        <li><%= movie.movie_title %></li>
+                        <li><%= movie.movie_release%></li>
+                        <li><%= movie.movie_description%></li>
+                        <li><a href="<%= movie.movie_imagePath%>" target="_blank">Image-url</a></li>
+                        <li><%= movie.link_language%></li>
+                        <li><%= movie.link_quality%></li>
+                        <li><%= movie.link_source%></li>
+                        <li><a href="<%= movie.link_url%>" target="_blank" >Link-url</a></li>
+                        <li><%= movie.category%></li>
+                    </ul>
+                    <button class="accept-queue-movie-btn"
+                        data-user-name="<%= movie.userName %>"
+                        data-movie-queue-id="<%= movie.movie_queueID %>"
+                        data-title="<%= movie.movie_title %>"
+                        data-release="<%= movie.movie_release %>"
+                        data-description="<%= movie.movie_description %>"
+                        data-imagepath="<%= movie.movie_imagePath %>"
+                        data-language="<%= movie.link_language %>"
+                        data-quality="<%= movie.link_quality %>"
+                        data-source="<%=  movie.link_source%>"
+                        data-link="<%= movie.link_url %>"
+                        data-category="<%= movie.category %>"
+                    >Accept</button>
+                    <button class="reject-queue-movie-btn"
+                        data-movie-queue-id="<%= movie.movie_queueID %>"
+                    >Reject</button>
+                </div>
+            </li>
+            <% }); %>
+        </ol>  
+    <footer></footer>
+</body>
+</html>

@@ -1,0 +1,214 @@
+.navbar{
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    align-content: space-between;
+    background-color: #0D1B2A;
+    border-radius: 5px;
+    gap: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.nav-menu{
+    display: flex;
+    gap: 1.5rem;
+    flex-grow: 1;
+    
+}
+
+.nav-items{
+    position: relative;
+}
+
+.nav-items::after{
+    content:'';
+    height: 3px;
+    width: 0%;
+    background-color: #e0e1dd;
+    position: absolute;
+    bottom: 0;
+    left:0;
+    border-radius: 2px;
+    transition: width .3s;
+
+}
+
+.nav-items:hover::after{
+    width: 100%;
+}
+
+.admin-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #0D1B2A; /* Háttérszín testreszabása */
+    border-radius: 5px;
+    padding: 10px;
+    
+  }
+  
+  .admin-dropdown li {
+    padding: 5px 0;
+  }
+  
+  /* Megjelenítjük a legördülő menüt, amikor az egér fölé viszik az "Admin Settings" menüpontra */
+  .admin-menu:hover .admin-dropdown {
+    display: block;
+  }
+
+
+#login-btn{
+    padding: 0 15px ;
+    border-radius: 8px;
+    background-color: #415A77;
+    color: #E0E1DD;
+    font-size: 1rem;
+    cursor: pointer;
+    border-width: 0;
+    
+}
+
+#login-btn:hover {
+    scale: 1.05;
+}
+
+#logout-btn{
+    padding: 0 15px ;
+    border-radius: 8px;
+    background-color: #415A77;
+    color: #E0E1DD;
+    font-size: 1rem;
+    cursor: pointer;
+    border-width: 0;
+    
+}
+
+#logout-btn:hover {
+    scale: 1.05;
+}
+
+
+
+:root {
+    --bar-width: 30px;
+    --bar-height: 4px;
+    --hamburger-gap:4px;
+    --background: #E0E1DD;
+    --animation-timing: 0.2s ease-in-out;
+}
+
+.nav-dropdown-hamburger{
+    display: flex;
+    flex-direction: column;
+    gap: var(--hamburger-gap);
+    width: max-content;
+    cursor: pointer;
+    position: relative;
+    display: none;
+}
+
+.nav-dropdown-hamburger::before,
+.nav-dropdown-hamburger::after,
+.nav-dropdown-hamburger input{
+    content: "";
+    width: var(--bar-width);
+    height: var(--bar-height);
+    background-color: var(--background);
+    border-radius: 999px;
+    transform-origin: left center;
+    transition: opacity var(--animation-timing), width var(--animation-timing), rotate var(--animation-timing) ; 
+
+}
+
+.nav-dropdown-hamburger input{
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    pointer-events: none;
+}
+
+.nav-dropdown-hamburger:has(input:checked)::before{
+    rotate: 45deg;
+    width: 23px;
+}
+
+.nav-dropdown-hamburger:has(input:checked)::after{
+    rotate: -45deg;
+    width: 23px;
+}
+
+.nav-dropdown-hamburger input:checked{
+    opacity: 0;
+    width: 0;
+}
+
+.nav-dropdown-menu{
+    position: absolute;
+    margin-right: 10px;
+    background-color: #415a77;
+    text-align: center;
+    right: 20px;
+    top: 40px;
+    border-radius: 5px;
+    padding: 10px 40px;
+    display: none;
+}
+
+#dropdown-logout-btn{
+    padding: 0 15px ;
+    border-radius: 8px;
+    background-color: #0D1B2A;
+    color: #E0E1DD;
+    font-size: 1rem;
+    cursor: pointer;
+    border-width: 0;
+}
+
+#dropdown-login-btn{
+    padding: 0 15px ;
+    border-radius: 8px;
+    background-color: #0D1B2A;
+    color: #E0E1DD;
+    font-size: 1rem;
+    cursor: pointer;
+    border-width: 0;
+}
+
+#dropdown-logout-btn:hover {
+    scale: 1.05;
+}
+
+#dropdown-login-btn:hover {
+    scale: 1.05;
+}
+
+@media screen and (max-width : 583px) {
+    .nav-menu{
+        display: none;
+    }
+
+    #login-btn{
+        display: none;
+    }
+
+    #logout-btn{
+        display: none;
+    }
+    
+    #user-name{
+        display: none;
+    }
+
+    .nav-logo{
+        flex-grow: 1;
+    }
+
+    .nav-dropdown-hamburger{
+        display: flex;
+    }
+
+    
+}

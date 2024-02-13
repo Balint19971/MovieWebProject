@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link href="/css/navbar.css" rel="stylesheet"/>
+    <script src="/js/description.js"></script>
+    <script src="/js/hamburger.js"></script>
+    <title>Shortcut</title>
+</head>
+<body>
+    <div class="navbar">
+        <H1 class="nav-logo">Shortcut</H1>
+        <ul class="nav-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+                <li class="nav-items admin-menu">
+                    <a href="#" class="admin-menu-toggle">AdminTools</a>
+                    <ul class="admin-dropdown">
+                        <li class="nav-items"><a href="/users">Users</a></li>
+                        <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+                        <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+        <% if(userName != null) { %>
+            <p id="user-name"><%= userName %> <a href="/logout"><button id="logout-btn">logout</button></a> </p>
+        <% }else { %>
+        <a href="/login"><button id="login-btn">Login</button></a>
+        <% } %>
+        <label class="nav-dropdown-hamburger">
+            <input type="checkbox" id="hamburger-checkbox">
+        </label>   
+        <ul class="nav-dropdown-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+            <li class="nav-items"><a href="/users">Users</a></li>
+            <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+            <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+            <% } %>
+            <% if(userName != null) { %>
+                <li><p id="dropdown-username"><%= userName %><a href="/logout"><button id="dropdown-logout-btn">logout</button></a> </p></li>
+            <% }else { %>
+                <li><a href="/login"><button id="dropdown-login-btn">Login</button></a></li>
+            <% } %>
+        </ul>
+    </div>
+    <div class="movie-container">
+        <div class="movie-photo">
+            <img src="<%= movie.movie_imagePath %>" alt="" width="200" lenght="200">
+        </div>
+        <div class="movie-description">
+            <h3><%= movie.movie_title %> <%= movie.movie_release %></h3>
+            <p><%= movie.movie_description %></p>
+        </div>
+    </div>
+    <div id="link-wrapper">
+        <table id="movie-links-table">
+            <tr class="movie-link-header">
+                <% if(userRole < 3 && userName != null){ %>
+                <th>Delete</th>
+                <% } %>
+                <th>Language</th>
+                <th>Quality</th>
+                <th>Source</th>
+                <th>Link</th>
+            </tr>
+            <% links.forEach((link) => { %>
+            <tr class="movie-link">
+                <% if(userRole < 3 && userName != null){ %>
+                <td>
+                    <button class="remove-link-btn"
+                     data-movie-id="<%= movie.movieID %>"
+                     data-link-id="<%= link.linkID %>"
+                     data-language="<%= link.link_language %>"
+                     data-quality="<%= link.link_quality %>"
+                     data-source="<%= link.link_source %>"
+                     data-link="<%= link.link_url %>"
+                     >
+                    Remove</button></td>
+                <% } %>
+                <td data-cell="language"><%= link.link_language %></td>
+                <td data-cell="quality"><%= link.link_quality %></td>
+                <td data-cell="source"><%= link.link_source %></td>
+                <td data-cell="link"><a href="<%= link.link_url %>" target="_blank"><button>Watch</button></a></td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+    <% if(userRole <= 3 && userName != null){ %>
+    <button id="add-link-btn">Add new link</button>
+    <form style="display: none;" id="add-new-link-form">
+            <input type="hidden" id="movieID" name="movieID" value="<%= movie.movieID %>">
+        <p>
+            <label for="new-language">language: </label>
+            <select  id="new-language" name="language">
+                <option value="English">English</option>
+                <option value="French">French</option>
+                <option value="Hungarian">Hungarian</option>
+            </select>
+        </p>
+        <p>
+            <label for="new-quality">quality: </label>
+            <select  id="new-quality" name="quality">
+                <option value="Camera">Camera</option>
+                <option value="Good">Good</option>
+                <option value="Excelent">Excelent</option>
+            </select>
+        </p>
+        <p>
+            <label for="new-source">Link-source: </label>
+            <input type="text" name="source" id="new-source" placeholder="Youtube" required>
+        </p>
+        <p>
+            <label for="new-link">Link-url: </label>
+            <input type="url" name="link" id="new-link" required>
+        </p>
+        <p id="add-link-result-response">
+        <button id="send-new-link-btn">send</button>
+        <% if(userRole <= 2 && userName != null){ %>
+        <button >admin send</button>
+        <% } %>
+        </p>
+    </form>
+    <% } %>
+    <% if(userRole <= 2 && userName != null){ %>
+    <button id="delete-movie-btn" data-id="<%= movie.movieID %>">Delete movie</button>
+    <% } %>
+    <p id="delete-message">The movie was deleted</p>
+    <% let commented = false %>
+    <% comments.forEach((comment) => { 
+         if(comment.userName == userName){
+            commented = true;
+         }
+     }) %>
+    <% if(userRole <= 3 && userName != null && commented == false){  %>
+    <form id="comment-form">
+            <input type="hidden" name="movieID" id="movieID" value= <%= movie.movieID %>>
+            <label for="comment">Describe your opinion about the movie: </label>
+            <textarea rows="7" cols="100" name="comment" id="comment" required></textarea>
+    </form>
+    <button id="submit-comment-btn">Submit</button>
+    <% } else if(commented == true && userName != null){ %>
+        <button id="delete-comment-btn" data-movie-id="<%= movie.movieID %>" data-username="<%= userName %>">Delete my comment</button>
+    <% } %>
+    
+    <h2>Comments:</h2>
+    <ul id="comment-section">
+        <% comments.forEach((comment) => { %>
+        <li class="comment">
+            <strong><%= comment.userName %></strong> : 
+            <p><%= comment.comment %></p>
+        </li>
+        <% }) %>
+    </ul>
+    
+    <footer></footer>
+</body>
+</html>

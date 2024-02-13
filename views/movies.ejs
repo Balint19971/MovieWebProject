@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link href="/css/navbar.css" rel="stylesheet"/>
+    <script src="/js/movies.js"></script>
+    <script src="/js/hamburger.js"></script>
+    <title>Movies</title>
+</head>
+<body>
+    <div class="navbar">
+        <H1 class="nav-logo">Shortcut</H1>
+        <ul class="nav-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+                <li class="nav-items admin-menu">
+                    <a href="#" class="admin-menu-toggle">AdminTools</a>
+                    <ul class="admin-dropdown">
+                        <li class="nav-items"><a href="/users">Users</a></li>
+                        <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+                        <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+        <% if(userName != null) { %>
+            <p id="user-name"><%= userName %> <a href="/logout"><button id="logout-btn">logout</button></a> </p>
+        <% }else { %>
+        <a href="/login"><button id="login-btn">Login</button></a>
+        <% } %>
+        <label class="nav-dropdown-hamburger">
+            <input type="checkbox" id="hamburger-checkbox">
+        </label>   
+        <ul class="nav-dropdown-menu">
+            <li class="nav-items"><a href="/movies">Movies</a></li>
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="nav-items"><a href="/upload">Upload</a></li>
+            <% }if(userRole <= 2 && userName != null) { %>
+            <li class="nav-items"><a href="/users">Users</a></li>
+            <li class="nav-items"><a href="/movie-moderation-queue">MovieQueue</a></li>
+            <li class="nav-items"><a href="/link-moderation-queue">LinkQueue</a></li>
+            <% } %>
+            <% if(userName != null) { %>
+                <li><p id="dropdown-username"><%= userName %><a href="/logout"><button id="dropdown-logout-btn">logout</button></a> </p></li>
+            <% }else { %>
+                <li><a href="/login"><button id="dropdown-login-btn">Login</button></a></li>
+            <% } %>
+        </ul>
+    </div>
+    <div class="search-bar">
+        <form action="/movie-search" method="POST" id="search-movie-form">
+            <input type="text" id="search-movie-input" name="searchedMovie" placeholder="Search movie...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="main-dropdown-container">
+        <button class="main-dropdown-menu-btn">Filter</button>
+        <ul class="main-dropdown-menu">
+            <% if(userRole <= 3 && userName != null) { %>
+            <li class="main-menu-items"><a class="category" href="/categories/Mymovies">My movies</a></li>
+            <% } %>
+            <li class="main-menu-items"><a class="category" href="/categories/Allmovies">All movies</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Horror">Horror</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Sci-fi">Sci-fi</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Drama">Drama</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Comedy">Comedy</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Triller">Triller</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Action">Action</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Family">Family</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Romantic">Romantic</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Documentary">Documentary</a></li>
+            <li class="main-menu-items"><a class="category" href="/categories/Animation">Animation</a></li>
+        </ul>
+    </div>
+    <div class="main-container">
+        <div class="main-left-container">
+            <ul class="main-menu">
+                <% if(userRole <= 3 && userName != null) { %>
+                <li class="main-menu-items"><a class="category" href="/categories/Mymovies">My movies</a></li>
+                <% } %>
+                <li class="main-menu-items"><a class="category" href="/categories/Allmovies">All movies</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Horror">Horror</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Sci-fi">Sci-fi</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Drama">Drama</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Comedy">Comedy</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Triller">Triller</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Action">Action</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Family">Family</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Romantic">Romantic</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Documentary">Documentary</a></li>
+                <li class="main-menu-items"><a class="category" href="/categories/Animation">Animation</a></li>
+            </ul>
+        </div>
+        <div class="main-right-container">
+            <% movies.forEach((movie) => { %>
+            <a href="/movie/<%= movie.movieID %>" class="movie-elements">
+                <img src="<%= movie.movie_imagePath %>" alt="movie">
+                <div class="movie-name-year">
+                    <ul>
+                        <li><%= movie.movie_title %></li>
+                        <li><%= movie.movie_release %></li>
+                    </ul>
+                </div>
+            </a>
+            <% }); %> 
+        </div>
+        
+    </div>
+    <footer></footer>
+</body>
+</html>
